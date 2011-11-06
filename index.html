@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>matchMedia test</title>
+		<link rel="stylesheet" type="text/css" href="mql.css" />
+	</head>
+	<body>
+		Open console and resize window.
+		<script src="matchMedia.js"></script>
+		<script>
+			// Test
+			mql('all and (max-width: 700px)', change);
+			mql('all and (max-width: 500px)', change);
+			mql('all and (min-width: 1200px)', change);
+		
+			function change(mql) {
+				console.log(mql);
+			}
+		</script>
+	</body>
+</html>
