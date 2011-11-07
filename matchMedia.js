@@ -13,10 +13,15 @@
 
 mql = (function(doc, undefined) {
 
-    var bool,
-        docElem = doc.documentElement,
+    var docElem = doc.documentElement,
         refNode = docElem.firstElementChild || docElem.firstChild,
         idCounter = 0;
+        if(!doc.getElementById('mq-style')) {
+          style = doc.createElement('style');
+          style.id = 'mq-style';
+          style.textContent = '.mq { -webkit-transition: width 0.001ms; -moz-transition: width 0.001ms; -o-transition: width 0.001ms; -ms-transition: width 0.001ms; width: 0; position: absolute; top: -100em; }\n';
+          docElem.insertBefore(style, refNode);          
+        }
 
     return function(q, cb) {
 
@@ -31,14 +36,14 @@ mql = (function(doc, undefined) {
             div = doc.createElement('div');
 
         div.className = 'mq'; // mq class in CSS declares width: 0 and transition on width of duration 0.001ms
-        div.style.cssText = "position:absolute;top:-100em";
         div.id = id;
-        div.innerHTML = '&shy;<style media="' + q + '"> #' + id + ' { width: 42px; }</style>';
+        style.textContent += '@media ' + q + ' { #' + div.id + ' { width: 42px; } }\n';        
 
         // add transition event listeners
         div.addEventListener('webkitTransitionEnd', callback, false); 
         div.addEventListener('transitionend', callback, false);       //Firefox
         div.addEventListener('oTransitionEnd', callback, false);      //Opera
+        div.addEventListener('msTransitionEnd', callback, false);      //IE        
 
         docElem.insertBefore(div, refNode);
 
