@@ -1,5 +1,5 @@
 /*
-* MediqQueryListener proof of concept using CSS transitions by Paul Hayes
+* MediaQueryListener proof of concept using CSS transitions by Paul Hayes
 * November 5th 2011
 *
 * Based on the excellent matchMedia polyfill
