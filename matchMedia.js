@@ -23,6 +23,12 @@ mql = (function(doc, undefined) {
           docElem.insertBefore(style, refNode);          
         }
 
+     var transitionEnds = Array('transitionend','webkitTransitionEnd','oTransitionEnd','msTransitionEnd');
+	
+     for(var i in transitionEnds) { 
+	if ('on'+ transitionEnds[i].toLowerCase() in window)  transitionEnd = transitionEnds[i];
+     }	
+
     return function(q, cb) {
 
         var id = 'mql-' + idCounter++,
@@ -39,11 +45,8 @@ mql = (function(doc, undefined) {
         div.id = id;
         style.textContent += '@media ' + q + ' { #' + div.id + ' { width: 42px; } }\n';        
 
-        // add transition event listeners
-        div.addEventListener('webkitTransitionEnd', callback, false); 
-        div.addEventListener('transitionend', callback, false);       //Firefox
-        div.addEventListener('oTransitionEnd', callback, false);      //Opera
-        div.addEventListener('msTransitionEnd', callback, false);      //IE        
+        // add transition event listener
+        div.addEventListener(transitionEnd, callback, false); 
 
         docElem.insertBefore(div, refNode);
 
