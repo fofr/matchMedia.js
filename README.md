@@ -1,33 +1,20 @@
-#matchMedia() polyfill
+# Testing Matching media queries with CSS transitions.
 
-## test whether a CSS media type or media query applies
+Blog post: http://www.paulrhayes.com/2011-11/use-css-transitions-to-link-media-queries-and-javascript/
 
-* **Authors**: Scott Jehl, Paul Irish, Nicholas Zakas 
-* **Spec**: [dev.w3.org/csswg/cssom-view/#dom-window-matchmedia](http://dev.w3.org/csswg/cssom-view/#dom-window-matchmedia)
-* **Native support**: in Chrome [since m10](http://trac.webkit.org/changeset/72552).
+## Advantages
+- `transitionEnd`, no need to loop or keep listening to events!
+- uses built-in CSS media queries.
 
+## Drawbacks
+- needs a new element for testing a new query. That can easily get out of hand, and I don't like ruining the DOM with wasteful elements.
+- each new element needs to have a listener for `transitionEnd`.
+- traversing two media query boundaries will trigger two callbacks not one (e.g. going from > 1200px to < 700px in `index.html`).
 
+## Thoughts to ponder
 
-## Usage
+- Using a single element would not work because you can't detect multiple mqs on them at once (unless you transition a different property for each mq but you could run out of properties!)
 
-#### test 'tv' media type
-    if (matchMedia('tv').matches) {
-      // tv media type supported
-    }
+- Could you use a single element but keep creating/destroying elements later?
 
-### test a mobile device media query
-    if (matchMedia('only screen and (max-width: 480px)').matches) {
-      // smartphone/iphone... maybe run some small-screen related dom scripting?
-    }
-    
-#### test landscape orientation
-    if (matchMedia('all and (orientation:landscape)').matches) {
-      // probably tablet in widescreen view
-    }
-
-
-## Used in: 
-
-* [Respond.js](https://github.com/scottjehl/Respond)
-* [MarshallJS](https://github.com/PaulKinlan/marshall)
-* [Modernizr](http://www.modernizr.com/)
+(readme originally written by @divya)
